@@ -1,0 +1,162 @@
+        header, nav, section, article, footer { 
+            display: block;
+        }
+
+        
+        div.container { 
+            width: 980px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #f0f2f5; 
+        }
+
+        
+        header {
+            background-color: #002d62; 
+            color: white;
+            width: 980px;
+            height: 100px;
+            text-align: center; 
+            padding-top: 20px; 
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        
+        nav {
+            background-color: #004080; 
+            width: 980px;
+            height: 40px; 
+            text-align: center; 
+            padding-top: 10px; 
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0 20px;
+        }
+
+        section {
+            background-color: white; 
+            width: 980px;
+            min-height: 150px; 
+            float: none; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            color: #002d62;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        section p, section ul, section ol {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        section ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        section ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        section ul li, section ol li {
+            margin-bottom: 8px;
+        }
+
+       
+        article {
+            background-color: white; 
+            width: 980px; 
+            min-height: 150px; 
+            float: none; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+        }
+
+        article h2 {
+            font-size: 1.8rem;
+            color: #002d62;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        article p, article ul, article ol {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        article ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        article ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        article ul li, article ol li {
+            margin-bottom: 8px;
+        }
+
+      
+        .top-recruiters ul {
+            list-style: disc;
+            padding: 0;
+            margin-left: 20px; 
+            overflow: hidden; 
+        }
+
+        .top-recruiters ul li {
+            background-color: transparent; 
+            padding: 0;
+            border: none; 
+            border-radius: 0; 
+            box-shadow: none; 
+            text-align: left; 
+            width: auto; 
+            float: none;
+            margin: 0 0 8px 0; 
+        }
+
+        footer {
+            background-color: #002d62;
+            color: white;
+            width: 980px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px; 
+            clear: both; 
+        }
+ 
