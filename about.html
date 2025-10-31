@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - GoCab</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <style>
+        :root {
+            --primary-color: #ffcc00;
+            --secondary-color: #212529;
+            --accent-color: #ffffff;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--secondary-color) !important;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/1920/500?random=4');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 0 4rem;
+            color: white;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .about-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .about-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-card h4 {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .story-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            margin: 4rem 0;
+        }
+        
+        .story-section h2 {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        
+        .story-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #6c757d;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            display: block;
+            border: 4px solid var(--primary-color);
+        }
+        
+        .stats-section {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 4rem 0;
+            margin: 4rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .value-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        
+        .footer h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Map styles for Find Us */
+        .map-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        #map {
+            width: 100%;
+            height: 420px;
+            min-height: 320px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        .map-sidebar {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 1.25rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+        .map-actions .btn { border-radius: 10px; }
+        
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            .contact-form-container { padding: 2rem; margin-top: -2rem; }
+            .section-title { font-size: 2rem; }
+            #map { height: 340px; }
+            .map-sidebar { margin-top: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">GoCab</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="book.html">Book Cab</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pricing.html">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1>About GoCab</h1>
+                    <p class="lead">Your trusted transportation partner, committed to safety, reliability, and exceptional service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Story -->
+    <section class="py-5">
+        <div class="container">
+            <div class="story-section">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2>Our Story</h2>
+                        <p>Founded in 2020, GoCab began with a simple mission: to provide safe, reliable, and affordable transportation services to our community. What started as a small fleet of vehicles has grown into a trusted name in the transportation industry.</p>
+                        <p>We believe that everyone deserves access to quality transportation, whether it's a quick ride across town or a long-distance journey. Our commitment to excellence, safety, and customer satisfaction has made us the preferred choice for thousands of customers.</p>
+                        <p>As of 2025, we continue to innovate and improve our services, always keeping our customers' needs at the heart of everything we do. From our professional drivers to our modern fleet, every aspect of our service is designed to provide you with the best possible experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission, Vision, Values -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Our Mission, Vision & Values</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h4>Our Mission</h4>
+                        <p>To provide safe, reliable, and affordable transportation services that connect people to their destinations while maintaining the highest standards of safety, comfort, and customer satisfaction.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>Our Vision</h4>
+                        <p>To become the leading transportation service provider, setting new standards for safety, innovation, and customer experience while building a sustainable and environmentally conscious business.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Why Choose Us</h4>
+                        <p>We combine cutting-edge technology with human touch, ensuring every ride is safe, comfortable, and memorable. Our commitment to excellence makes us the preferred choice for transportation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Professional Drivers</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-label">Miles Driven</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">On-Time Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Safety First</h4>
+                    <p>We prioritize the safety of our passengers and drivers above all else, maintaining the highest safety standards in everything we do.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Reliability</h4>
+                    <p>We are committed to being dependable and consistent, ensuring our customers can count on us for their transportation needs.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h4>Customer Satisfaction</h4>
+                    <p>Your happiness is our success. We go above and beyond to ensure every customer has a positive experience.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4>Environmental Responsibility</h4>
+                    <p>We are committed to reducing our environmental impact through eco-friendly practices and sustainable operations.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Community Focus</h4>
+                    <p>We believe in giving back to the communities we serve and supporting local initiatives and causes.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4>Innovation</h4>
+                    <p>We continuously embrace new technologies and methods to improve our services and customer experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section (removed)
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <img src="https://picsum.photos/300/300?random=10" alt="Team Member" class="team-image">
+                        <h5>John Smith</h5>
+                        <p class="text-muted">CEO & Founder</p>
+                        <p>With over 15 years in the transportation industry, John leads our vision of safe and reliable service.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <img src="https://picsum.photos/300/300?random=11" alt="Team Member" class="team-image">
+                        <h5>Sarah Johnson</h5>
+                        <p class="text-muted">Operations Manager</p>
+                        <p>Sarah ensures smooth operations and maintains our high standards of service excellence.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <img src="https://picsum.photos/300/300?random=12" alt="Team Member" class="team-image">
+                        <h5>Mike Chen</h5>
+                        <p class="text-muted">Safety Director</p>
+                        <p>Mike oversees all safety protocols and driver training to ensure passenger security.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+-->
+    <!-- Call to Action -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title">Ready to Experience GoCab?</h2>
+                    <p class="lead mb-4">Join thousands of satisfied customers who trust GoCab for their transportation needs. Book your ride today!</p>
+                    <a href="book.html" class="btn btn-primary-custom btn-lg">
+                        <i class="fas fa-car me-2"></i>Book Your Ride Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Us -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="row g-4 map-container">
+                <div class="col-lg-8">
+                    <div id="map" role="region" aria-label="Location map"></div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="map-sidebar">
+                        <h5 class="mb-3"><i class="fas fa-map-marker-alt me-2"></i>Our Location</h5>
+                        <p class="mb-3">We’re based in Rajkot, India. Use the map to explore nearby areas or get directions.</p>
+                        <div class="map-actions d-grid gap-2">
+                            <a id="gmaps-link" class="btn btn-outline-primary-custom" target="_blank" rel="noopener">
+                                <i class="fas fa-directions me-2"></i>Open in Google Maps
+                            </a>
+                            <div class="btn-group">
+                                <button id="style-osm" class="btn btn-outline-secondary">OSM</button>
+                                <button id="style-esri" class="btn btn-outline-secondary">Esri</button>
+                                <button id="style-dark" class="btn btn-outline-secondary">Dark</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>GoCab</h5>
+                    <p>Your trusted partner for safe, reliable, and affordable transportation services. Book your ride anytime, anywhere.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="book.html" class="text-light text-decoration-none">Book Cab</a></li>
+                        <li><a href="pricing.html" class="text-light text-decoration-none">Pricing</a></li>
+                        <li><a href="about.html" class="text-light text-decoration-none">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-phone me-2"></i> (+91-999999999)</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@gocab.com</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Rajkot, India</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Service Hours</h5>
+                    <p>24/7 Available</p>
+                    <p>Emergency Service</p>
+                    <p>Airport Transfers</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 GoCab India. All rights reserved. | Made with ❤️ in India</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+    (function(){
+      const lat = 22.3039, lng = 70.8022;
+      function initMap(){
+        const mapEl = document.getElementById('map');
+        if(!mapEl) return;
+        try{
+          const map = L.map('map', { center:[lat,lng], zoom:13, preferCanvas:true });
+          const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+          });
+          const esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ'
+          });
+          const dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CartoDB'
+          });
+          const labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+            attribution: 'Labels &copy; CartoDB'
+          });
+
+          osm.addTo(map);
+          labels.addTo(map);
+
+          const marker = L.marker([lat,lng], { title:'GoCab India' }).addTo(map);
+          marker.bindPopup('<strong>GoCab India</strong><br>Rajkot, India');
+
+          const gmapsLink = document.getElementById('gmaps-link');
+          if(gmapsLink){
+            gmapsLink.href = `https://www.google.com/maps?q=${lat},${lng}`;
+          }
+
+          function setBase(layer){
+            map.eachLayer(function(l){
+              if(l instanceof L.TileLayer && l !== labels){ map.removeLayer(l); }
+            });
+            layer.addTo(map);
+            labels.addTo(map);
+          }
+
+          document.getElementById('style-osm')?.addEventListener('click', function(){ setBase(osm); });
+          document.getElementById('style-esri')?.addEventListener('click', function(){ setBase(esri); });
+          document.getElementById('style-dark')?.addEventListener('click', function(){
+            map.eachLayer(function(l){ if(l instanceof L.TileLayer){ map.removeLayer(l); } });
+            dark.addTo(map);
+          });
+
+          const ro = new ResizeObserver(function(){ map.invalidateSize(); });
+          ro.observe(mapEl);
+        }catch(e){
+          console.error('Map init error:', e);
+          const fallback = document.createElement('div');
+          fallback.className = 'alert alert-warning mt-3';
+          fallback.textContent = 'Map is temporarily unavailable. Please try again later.';
+          mapEl?.parentNode?.insertBefore(fallback, mapEl.nextSibling);
+        }
+      }
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', initMap, { once:true });
+      } else {
+        initMap();
+      }
+    })();
+    </script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

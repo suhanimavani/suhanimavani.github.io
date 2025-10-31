@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - GoCab</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <style>
+        :root {
+            --primary-color: #ffcc00;
+            --secondary-color: #212529;
+            --accent-color: #ffffff;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--secondary-color) !important;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/1920/500?random=5');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 0 4rem;
+            color: white;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.25);
+        }
+        
+        .btn-submit {
+            background-color: var(--primary-color);
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+        }
+        
+        .contact-info-card {
+            background: linear-gradient(135deg, var(--primary-color), #ffd633);
+            border-radius: 20px;
+            padding: 3rem;
+            color: var(--secondary-color);
+            height: 100%;
+        }
+        
+        .contact-info-card h4 {
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .contact-details h6 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .contact-details p {
+            margin-bottom: 0;
+            color: var(--secondary-color);
+        }
+        
+        .map-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        
+        #map {
+            width: 100%;
+            height: 420px;
+            min-height: 320px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        
+        .map-sidebar {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 1.25rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+        
+        .map-actions .btn { border-radius: 10px; }
+        
+        @media (max-width: 768px) {
+            #map { height: 340px; }
+            .map-sidebar { margin-top: 1rem; }
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        
+        .footer h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-form-container {
+                padding: 2rem;
+                margin-top: -2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">GoCab</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="book.html">Book Cab</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pricing.html">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1>Contact Us</h1>
+                    <p class="lead">Get in touch with us. We're here to help and answer any questions you may have.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Contact Form -->
+                <div class="col-lg-8">
+                    <div class="contact-form-container">
+                        <h3 class="mb-4">Send us a Message</h3>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">
+                                        <i class="fas fa-user me-2"></i>First Name
+                                    </label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="Your first name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">
+                                        <i class="fas fa-user me-2"></i>Last Name
+                                    </label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Your last name" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope me-2"></i>Email Address
+                                    </label>
+                                    <input type="email" class="form-control" id="email" placeholder="your.email@example.com" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">
+                                        <i class="fas fa-phone me-2"></i>Phone Number
+                                    </label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="(+91-999999999)">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">
+                                    <i class="fas fa-tag me-2"></i>Subject
+                                </label>
+                                <select class="form-control" id="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="booking">Booking Inquiry</option>
+                                    <option value="support">Customer Support</option>
+                                    <option value="complaint">Complaint</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">
+                                    <i class="fas fa-comment me-2"></i>Message
+                                </label>
+                                <textarea class="form-control" id="message" rows="5" placeholder="Tell us how we can help you..." required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-submit">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="col-lg-4">
+                    <div class="contact-info-card">
+                        <h4><i class="fas fa-info-circle me-2"></i>Get in Touch</h4>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h6>Office Address</h6>
+                                <p>123 Main Street<br>City, State 12345<br>United States</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h6>Phone Numbers</h6>
+                                <p>(+91-999999999)<br>(+91-999999999)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h6>Email Address</h6>
+                                <p>info@gocab.com<br>support@gocab.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h6>Business Hours</h6>
+                                <p>24/7 Customer Support<br>Office: Mon-Fri 9AM-6PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="map-container" aria-label="Interactive map of Rajkot, Gujarat, India">
+                        <div id="map" role="application" aria-label="Map showing GoCab location in Rajkot"></div>
+                        <noscript>
+                            <div class="alert alert-warning mt-3" role="alert">Interactive map requires JavaScript. Use the links in the sidebar to view directions.</div>
+                        </noscript>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="map-sidebar">
+                        <h5 class="mb-3">GoCab Rajkot</h5>
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Rajkot, Gujarat, India</p>
+                        <div class="map-actions d-grid gap-2 mb-3">
+                            <a class="btn btn-submit" href="https://www.google.com/maps/search/?api=1&query=22.3039,70.8022" target="_blank" rel="noopener" aria-label="View on Google Maps">
+                                <i class="fas fa-external-link-alt me-2"></i>View on Google Maps
+                            </a>
+                            <a class="btn btn-primary" style="background-color:#212529;border:none" href="https://www.google.com/maps/dir/?api=1&destination=22.3039,70.8022" target="_blank" rel="noopener" aria-label="Get directions to Rajkot location">
+                                <i class="fas fa-route me-2"></i>Get Directions
+                            </a>
+                        </div>
+                        <div class="btn-group w-100 mb-2" role="group" aria-label="Map style">
+                            <button class="btn btn-outline-secondary" id="styleRoadmap">Roadmap</button>
+                            <button class="btn btn-outline-secondary" id="styleSatellite">Satellite</button>
+                            <button class="btn btn-outline-secondary" id="styleHybrid">Hybrid</button>
+                        </div>
+                        <hr class="my-3">
+                        <p class="small text-muted">Use the map controls to zoom, pan, and switch styles. Satellite + labels creates a hybrid view.</p>
+                        <div id="mapError" class="alert alert-warning d-none" role="alert">
+                            Map service is unavailable. Try the links above.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Contact Methods -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Other Ways to Reach Us</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-info-card text-center">
+                        <div class="contact-icon mb-3">
+                            <i class="fas fa-headset fa-3x"></i>
+                        </div>
+                        <h5>24/7 Support</h5>
+                        <p>Our customer support team is available round the clock to assist you with any queries or concerns.</p>
+                        <p><strong>Call: (+91-999999999)</strong></p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-info-card text-center">
+                        <div class="contact-icon mb-3">
+                            <i class="fab fa-whatsapp fa-3x"></i>
+                        </div>
+                        <h5>WhatsApp Support</h5>
+                        <p>Chat with us on WhatsApp for quick assistance and instant responses to your questions.</p>
+                        <p><strong>WhatsApp: (+91-999999999)</strong></p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-info-card text-center">
+                        <div class="contact-icon mb-3">
+                            <i class="fas fa-envelope fa-3x"></i>
+                        </div>
+                        <h5>Email Support</h5>
+                        <p>Send us an email and we'll get back to you within 24 hours with a detailed response.</p>
+                        <p><strong>Email: support@gocab.com</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>GoCab</h5>
+                    <p>Your trusted partner for safe, reliable, and affordable transportation services. Book your ride anytime, anywhere.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="book.html" class="text-light text-decoration-none">Book Cab</a></li>
+                        <li><a href="pricing.html" class="text-light text-decoration-none">Pricing</a></li>
+                        <li><a href="about.html" class="text-light text-decoration-none">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-phone me-2"></i> (+91-999999999)</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@gocab.com</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Rajkot, India</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Service Hours</h5>
+                    <p>24/7 Available</p>
+                    <p>Emergency Service</p>
+                    <p>Airport Transfers</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 GoCab India. All rights reserved. | Made with ❤️ in India</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    (function(){
+      const rajkot = [22.3039, 70.8022];
+      const mapEl = document.getElementById('map');
+      const errorEl = document.getElementById('mapError');
+      let map, osm, esri, labels, marker;
+      
+      function showError(){ if (errorEl) errorEl.classList.remove('d-none'); }
+      function hideError(){ if (errorEl) errorEl.classList.add('d-none'); }
+      
+      function init(){
+        try {
+          if (!mapEl || !window.L) { showError(); return; }
+          hideError();
+          map = L.map('map', { center: rajkot, zoom: 12, zoomControl: true, preferCanvas: true });
+          
+          osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+          });
+          esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}', {
+            maxZoom: 19,
+            attribution: 'Tiles &copy; Esri'
+          });
+          labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+            maxZoom: 20,
+            attribution: '&copy; OpenStreetMap &copy; CARTO'
+          });
+          
+          [osm, esri, labels].forEach(layer => layer.on('tileerror', showError));
+          osm.addTo(map);
+          
+          const baseLayers = { 'Roadmap': osm, 'Satellite': esri };
+          const overlays = { 'Labels Overlay': labels };
+          L.control.layers(baseLayers, overlays, { position: 'topright' }).addTo(map);
+          
+          marker = L.marker(rajkot, { title: 'GoCab Rajkot' }).addTo(map);
+          marker.bindPopup('<strong>GoCab - Rajkot</strong><br>Rajkot, Gujarat, India');
+          marker.openPopup();
+          
+          // Style toggles
+          const btnRoad = document.getElementById('styleRoadmap');
+          const btnSat = document.getElementById('styleSatellite');
+          const btnHybrid = document.getElementById('styleHybrid');
+          
+          function toRoad(){ map.removeLayer(esri); map.addLayer(osm); if (map.hasLayer(labels)) map.removeLayer(labels); }
+          function toSat(){ map.removeLayer(osm); map.addLayer(esri); if (map.hasLayer(labels)) map.removeLayer(labels); }
+          function toHybrid(){ map.removeLayer(osm); map.addLayer(esri); map.addLayer(labels); }
+          
+          if (btnRoad) btnRoad.addEventListener('click', toRoad);
+          if (btnSat) btnSat.addEventListener('click', toSat);
+          if (btnHybrid) btnHybrid.addEventListener('click', toHybrid);
+          
+        } catch (e) {
+          console.error('Map init failed:', e);
+          showError();
+        }
+      }
+      
+      // Lazy init when in view
+      if ('IntersectionObserver' in window && mapEl){
+        const io = new IntersectionObserver((entries)=>{
+          entries.forEach(entry=>{ if (entry.isIntersecting){ init(); io.disconnect(); } });
+        });
+        io.observe(mapEl);
+      } else {
+        window.addEventListener('load', init);
+      }
+    })();
+    </script>
+</body>
+</html>

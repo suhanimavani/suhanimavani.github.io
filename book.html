@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Cab - GoCab</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #ffcc00;
+            --secondary-color: #212529;
+            --accent-color: #ffffff;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--secondary-color) !important;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(255, 204, 0, 0.9), rgba(255, 204, 0, 0.9)), url('https://picsum.photos/1920/400?random=2');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 0 4rem;
+            color: var(--secondary-color);
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .booking-form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.25);
+        }
+        
+        .btn-book {
+            background-color: var(--primary-color);
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-book:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, var(--primary-color), #ffd633);
+            border-radius: 15px;
+            padding: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+        
+        .info-card h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .info-card p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        
+        .footer h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .booking-form-container {
+                padding: 2rem;
+                margin-top: -2rem;
+            }
+        }
+        </style>
+        <style>
+        /* Bike Cab specific additions */
+        .calc-output { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-top:.5rem; }
+        .calc-output .badge { font-size: .95rem; padding:.5rem .75rem; }
+        .calc-output .price { font-weight:600; }
+
+        /* Ticket Styles (reverted) */
+        .ticket-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:1050; }
+        .ticket-card { background:#fff; width:min(720px, 92vw); border-radius:12px; box-shadow:0 8px 28px rgba(0,0,0,.18); overflow:hidden; }
+        .ticket-header { background:linear-gradient(135deg,#0d6efd,#6610f2); color:#fff; padding:1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; }
+        .ticket-brand { display:flex; align-items:center; gap:.75rem; }
+        .ticket-brand .logo { width:36px; height:36px; border-radius:8px; background:#fff; display:grid; place-items:center; color:#0d6efd; font-weight:700; }
+        .ticket-body { padding:1.25rem; }
+        .ticket-grid { display:grid; grid-template-columns: 1fr 1fr; gap:1rem; }
+        .ticket-row { display:flex; justify-content:space-between; border-bottom:1px dashed #dee2e6; padding:.5rem 0; }
+        .ticket-row:last-child { border-bottom: none; }
+        .qr-box { display:grid; place-items:center; padding:0.5rem; margin-top:0.25rem; }
+        .qr-box canvas, .qr-box img { width:160px !important; height:160px !important; }
+        .qr-status { margin-top:0.5rem; font-weight:600; display:flex; align-items:center; gap:.5rem; }
+        .ticket-footer { background:#f8f9fa; padding:.75rem 1.25rem; display:flex; justify-content:space-between; align-items:center; }
+        .close-ticket { border:none; background:transparent; color:#0d6efd; font-weight:600; padding:.5rem 1rem; }
+        @media (max-width: 768px) {
+            .ticket-grid { grid-template-columns: 1fr; }
+            .ticket-header { padding:.75rem 1rem; }
+            .ticket-body { padding:1rem; }
+            .ticket-card { width:96vw; }
+        }
+        </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">GoCab</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="book.html">Book Cab</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pricing.html">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1>Book Your Cab</h1>
+                    <p class="lead">Quick, easy, and reliable cab booking. Fill in your details and we'll get you there safely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="booking-form-container">
+                        <form id="bikeCabForm" novalidate>
+                            <!-- Bike Cab: Pickup & Drop (States) -->
+                            <div class="form-section">
+                                <h5 class="section-title">Bike Cab – Trip Details</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="pickupState" class="form-label">
+                                            <i class="fas fa-map-marker-alt me-2"></i>PICKUP LOCATION
+                                        </label>
+                                        <select class="form-control" id="pickupState" required>
+                                            <option value="">Select pickup state</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a pickup state.</div>
+                                        <small id="pickupHelp" class="form-text text-muted">Select pickup state</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="dropState" class="form-label">
+                                            <i class="fas fa-map-pin me-2"></i>DROP LOCATION
+                                        </label>
+                                        <select class="form-control" id="dropState" required>
+                                            <option value="">Select drop state</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a drop state.</div>
+                                        <small id="dropHelp" class="form-text text-muted">Select drop state</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Date & Time -->
+                            <div class="form-section">
+                                <h5 class="section-title">Schedule</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tripDate" class="form-label">
+                                            <i class="fas fa-calendar-alt me-2"></i>Date
+                                        </label>
+                                        <input type="date" class="form-control" id="tripDate" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tripTime" class="form-label">
+                                            <i class="fas fa-clock me-2"></i>Time
+                                        </label>
+                                        <input type="time" class="form-control" id="tripTime" required>
+                                    </div>
+                                </div>
+                                <div class="calc-output" id="calcOutput" aria-live="polite">
+                                    <span class="badge text-bg-light">Distance: <span id="distanceKm">0</span> km</span>
+                                    <span class="badge text-bg-light">Base Fare: ₹<span id="baseFare">0</span></span>
+                                    <span class="badge text-bg-primary">Total Price: ₹<span id="totalPrice" class="price">0</span></span>
+                                </div>
+                            </div>
+
+                            <!-- Passenger & Preferences -->
+                            <div class="form-section">
+                                <h5 class="section-title">Passenger & Preferences</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="passengerName" class="form-label">
+                                            <i class="fas fa-user me-2"></i>Full Name
+                                        </label>
+                                        <input type="text" class="form-control" id="passengerName" placeholder="Your full name" required>
+                                        <div class="invalid-feedback">Please enter your name.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="contactNumber" class="form-label">
+                                            <i class="fas fa-phone me-2"></i>Contact Number
+                                        </label>
+                                        <input type="tel" class="form-control" id="contactNumber" placeholder="(+91-999999999)" required>
+                                        <div class="invalid-feedback">Please enter a valid contact number.</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="emailAddress" class="form-label">
+                                            <i class="fas fa-envelope me-2"></i>Email Address
+                                        </label>
+                                        <input type="email" class="form-control" id="emailAddress" placeholder="name@example.com" required>
+                                        <div class="invalid-feedback">Please enter a valid email.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cabType" class="form-label">
+                                            <i class="fas fa-car me-2"></i>Cab Type
+                                        </label>
+                                        <select class="form-control" id="cabType" required>
+                                            <option value="">Select cab type</option>
+                                            <option value="bike">Bike - Solo (1 seat) — ₹8/km</option>
+                                            <option value="mini">Mini - Economy (4 seats) — ₹12/km</option>
+                                            <option value="sedan">Sedan - Comfort (4 seats) — ₹15/km</option>
+                                            <option value="suv">SUV - Premium (6-7 seats) — ₹20/km</option>
+                                        </select>
+                                        <small id="cabRateInfo" class="form-text text-muted">Select cab type</small>
+                                        <div class="invalid-feedback">Please select a cab type.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Information -->
+                            <div class="form-section">
+                                <h5 class="section-title">Additional Information</h5>
+                                <div class="mb-3">
+                                    <label for="passengers" class="form-label">
+                                        <i class="fas fa-users me-2"></i>Number of Passengers
+                                    </label>
+                                    <select class="form-control" id="passengers">
+                                        <option value="1">1 Passenger</option>
+                                        <option value="2">2 Passengers</option>
+                                        <option value="3">3 Passengers</option>
+                                        <option value="4">4 Passengers</option>
+                                        <option value="5">5+ Passengers</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="specialRequests" class="form-label">
+                                        <i class="fas fa-comment me-2"></i>Special Requests
+                                    </label>
+                                    <textarea class="form-control" id="specialRequests" rows="3" placeholder="Any special requirements or notes..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Book Now Button -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-book">
+                                    <i class="fas fa-check-circle me-2"></i>Book Now
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Information Card -->
+                <div class="col-lg-4">
+                    <div class="info-card">
+                        <h5><i class="fas fa-info-circle me-2"></i>Booking Information</h5>
+                        <p><i class="fas fa-clock me-2"></i> <strong>24/7 Service:</strong> Available round the clock</p>
+                        <p><i class="fas fa-shield-alt me-2"></i> <strong>Safe & Secure:</strong> Licensed drivers and insured vehicles</p>
+                        <p><i class="fas fa-dollar-sign me-2"></i> <strong>Transparent Pricing:</strong> No hidden charges</p>
+                        <p><i class="fas fa-mobile-alt me-2"></i> <strong>Easy Booking:</strong> Simple and quick process</p>
+                        <p><i class="fas fa-headset me-2"></i> <strong>Customer Support:</strong> 24/7 assistance available</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h5><i class="fas fa-phone me-2"></i>Need Help?</h5>
+                        <p><strong>Call us:</strong> (+91-999999999)</p>
+                        <p><strong>WhatsApp:</strong> (+91-999999999)</p>
+                        <p><strong>Email:</strong> support@gocab.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>GoCab</h5>
+                    <p>Your trusted partner for safe, reliable, and affordable transportation services. Book your ride anytime, anywhere.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="book.html" class="text-light text-decoration-none">Book Cab</a></li>
+                        <li><a href="pricing.html" class="text-light text-decoration-none">Pricing</a></li>
+                        <li><a href="about.html" class="text-light text-decoration-none">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-phone me-2"></i> (+91-999999999)</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@gocab.com</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Rajkot, India</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Service Hours</h5>
+                    <p>24/7 Available</p>
+                    <p>Emergency Service</p>
+                    <p>Airport Transfers</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 GoCab India. All rights reserved. | Made with ❤️ in India</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ticket Overlay -->
+    <div class="ticket-overlay" id="ticketOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <div class="ticket-brand">
+                    <div class="logo">GC</div>
+                    <div>
+                        <div class="fw-bold">GoCab</div>
+                        <small>Ride Booking Confirmation</small>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div id="ticketRef" class="fw-bold">REF: GC-000000</div>
+                    <small class="opacity-75">Please screenshot or save this ticket</small>
+                </div>
+            </div>
+            <div class="ticket-body">
+                <div class="ticket-grid">
+                    <div>
+                        <div class="ticket-row"><span>Passenger</span><span id="tPassenger">-</span></div>
+                        <div class="ticket-row"><span>Contact</span><span id="tContact">-</span></div>
+                        <div class="ticket-row"><span>Email</span><span id="tEmail">-</span></div>
+                        <div class="ticket-row"><span>Cab Type</span><span id="tCabType">-</span></div>
+                        <div class="ticket-row"><span>Date</span><span id="tDate">-</span></div>
+                        <div class="ticket-row"><span>Time</span><span id="tTime">-</span></div>
+                        <div class="ticket-row"><span>Pickup</span><span id="tPickup">-</span></div>
+                        <div class="ticket-row"><span>Drop</span><span id="tDrop">-</span></div>
+                    </div>
+                    <div>
+                        <div class="ticket-row"><span>Distance</span><span id="tDistance">0 km</span></div>
+                        <div class="ticket-row"><span>Base Fare</span><span>₹<span id="tBase">0</span></span></div>
+                        <div class="ticket-row"><span>Taxes & Fees</span><span>₹<span id="tFees">0</span></span></div>
+                        <div class="ticket-row"><span>Total Price</span><span class="fw-bold">₹<span id="tTotal">0</span></span></div>
+                        <div class="qr-box">
+                            <div id="ticketQR" aria-label="Booking QR code" role="img"></div>
+                            <div id="qrSpinner" class="spinner-border text-primary mt-2" role="status" aria-hidden="true" style="display:none;"></div>
+                            <div id="qrStatus" class="qr-status text-muted" aria-live="polite"><i class="fas fa-hourglass-half"></i> Generating QR…</div>
+                        </div>
+                        <small class="text-muted mt-2">Show this QR code to your driver</small>
+                    </div>
+                </div>
+            </div>
+            <div class="ticket-footer">
+                <small class="text-muted">Thank you for choosing GoCab</small>
+                <button class="close-ticket" id="closeTicket" aria-label="Close Ticket">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+    (function(){
+        const STATES = [
+            "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir","Ladakh","Puducherry","Chandigarh","Daman and Diu","Andaman and Nicobar Islands" 
+        ];
+        const STATE_COORDS = {
+            "Andhra Pradesh": [15.9129,79.7399],"Arunachal Pradesh": [28.2180,94.7278],"Assam": [26.2006,92.9376],"Bihar": [25.0961,85.3131],"Chhattisgarh": [21.2787,81.8661],"Goa": [15.2993,74.1240],"Gujarat": [22.2587,71.1924],"Haryana": [29.0588,76.0856],"Himachal Pradesh": [31.1048,77.1734],"Jharkhand": [23.6102,85.2799],"Karnataka": [15.3173,75.7139],"Kerala": [10.8505,76.2711],"Madhya Pradesh": [22.9734,78.6569],"Maharashtra": [19.7515,75.7139],"Manipur": [24.6637,93.9063],"Meghalaya": [25.4670,91.3662],"Mizoram": [23.1645,92.9376],"Nagaland": [26.1584,94.5624],"Odisha": [20.9517,85.0985],"Punjab": [31.1471,75.3412],"Rajasthan": [27.0238,74.2179],"Sikkim": [27.5330,88.5122],"Tamil Nadu": [11.1271,78.6569],"Telangana": [18.1124,79.0193],"Tripura": [23.9408,91.9882],"Uttar Pradesh": [26.8467,80.9462],"Uttarakhand": [30.0668,79.0193],"West Bengal": [22.9868,87.8550],"Delhi": [28.7041,77.1025],"Jammu and Kashmir": [33.7782,76.5762],"Ladakh": [34.1526,77.5770],"Puducherry": [11.9416,79.8083],"Chandigarh": [30.7333,76.7794],"Daman and Diu": [20.3974,72.8328],"Andaman and Nicobar Islands": [11.7401,92.6586]
+        };
+        const RATES = { bike: 8, mini: 12, sedan: 15, suv: 20 }; // ₹ per km
+        const FIXED_FEES = 25; // booking convenience fee
+
+        const pickup = document.getElementById('pickupState');
+        const drop = document.getElementById('dropState');
+        const cabType = document.getElementById('cabType');
+        const distanceKmEl = document.getElementById('distanceKm');
+        const baseFareEl = document.getElementById('baseFare');
+        const totalPriceEl = document.getElementById('totalPrice');
+        const FILTER_CACHE = new Map();
+
+        const form = document.getElementById('bikeCabForm');
+        const passengerName = document.getElementById('passengerName');
+        const contactNumber = document.getElementById('contactNumber');
+        const emailAddress = document.getElementById('emailAddress');
+        const tripDate = document.getElementById('tripDate');
+        const tripTime = document.getElementById('tripTime');
+
+        function populateSelect(select){
+            select.innerHTML = '<option value="">'+ (select.id==='pickupState'?'Select pickup state':'Select drop state') +'</option>';
+            const frag = document.createDocumentFragment();
+            STATES.forEach(s=>{
+                const opt = document.createElement('option');
+                opt.value = s; opt.textContent = s; frag.appendChild(opt);
+            });
+            select.appendChild(frag);
+        }
+        populateSelect(pickup);
+        populateSelect(drop);
+
+        function filterOptions(activeSelect, otherSelect){
+            const selected = activeSelect.value;
+            const otherValue = otherSelect.value;
+            const key = activeSelect.id + ':' + selected;
+            let available = FILTER_CACHE.get(key);
+            if (!available) {
+                available = STATES.filter(s => s !== selected);
+                FILTER_CACHE.set(key, available);
+            }
+            otherSelect.innerHTML = '<option value="">'+ (otherSelect.id==='pickupState'?'Select pickup state':'Select drop state') +'</option>';
+            available.forEach(s=>{
+                const opt = document.createElement('option');
+                opt.value = s; opt.textContent = s; otherSelect.appendChild(opt);
+            });
+            if (otherValue && otherValue !== selected && available.includes(otherValue)) {
+                otherSelect.value = otherValue;
+            }
+            const helpId = otherSelect.id==='pickupState'?'pickupHelp':'dropHelp';
+            const helpEl = document.getElementById(helpId);
+            if (selected) {
+                helpEl.textContent = 'Selected ' + (activeSelect.id==='pickupState'?'pickup':'drop') + ' "' + selected + '" excluded from ' + (otherSelect.id==='pickupState'?'pickup':'drop') + ' options';
+            } else {
+                helpEl.textContent = otherSelect.id==='pickupState'?'Select pickup state':'Select drop state';
+            }
+            otherSelect.classList.add('select-updated');
+            setTimeout(()=> otherSelect.classList.remove('select-updated'), 300);
+        }
+        pickup.addEventListener('change', ()=>{
+            filterOptions(pickup, drop);
+            calculate();
+        });
+        drop.addEventListener('change', ()=>{
+            filterOptions(drop, pickup);
+            calculate();
+        });
+
+        function haversineDistance([lat1, lon1], [lat2, lon2]){
+            const toRad = deg => deg * Math.PI/180;
+            const R = 6371; // km
+            const dLat = toRad(lat2-lat1);
+            const dLon = toRad(lon2-lon1);
+            const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function calculate(){
+            const p = STATE_COORDS[pickup.value];
+            const d = STATE_COORDS[drop.value];
+            const rate = RATES[cabType.value] || 0;
+            let dist = 0, base = 0, total = 0;
+            if (p && d) {
+                dist = Math.round(haversineDistance(p, d));
+            }
+            base = Math.round(dist * rate);
+            total = base + FIXED_FEES;
+            distanceKmEl.textContent = dist;
+            baseFareEl.textContent = base;
+            totalPriceEl.textContent = total;
+        }
+        cabType.addEventListener('change', ()=>{ updateCabRateInfo(); calculate(); });
+
+        // Validation helpers
+        function setValidity(el, valid){
+            el.classList.toggle('is-invalid', !valid);
+            el.classList.toggle('is-valid', valid);
+        }
+        function validateForm(){
+            const nameOk = passengerName.value.trim().length >= 2;
+            const contactOk = /^\d{10}$/.test(contactNumber.value.trim());
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress.value.trim());
+            const pickupOk = !!pickup.value;
+            const dropOkRaw = !!drop.value;
+            const locDifferent = pickup.value && drop.value ? pickup.value !== drop.value : true;
+            const dropOk = dropOkRaw && locDifferent;
+            const dateOk = !!tripDate.value;
+            const timeOk = !!tripTime.value;
+            const cabOk = !!cabType.value;
+            setValidity(passengerName, nameOk);
+            setValidity(contactNumber, contactOk);
+            setValidity(emailAddress, emailOk);
+            setValidity(pickup, pickupOk);
+            setValidity(drop, dropOk);
+            if (!locDifferent) {
+                const dropHelp = document.getElementById('dropHelp');
+                dropHelp.textContent = 'Pickup and drop cannot be the same.';
+            }
+            setValidity(tripDate, dateOk);
+            setValidity(tripTime, timeOk);
+            setValidity(cabType, cabOk);
+            return nameOk && contactOk && emailOk && pickupOk && dropOk && dateOk && timeOk && cabOk;
+        }
+
+        // QR generation using QRCode.js (reverted UI feedback)
+        function generateQR(container, text){
+            container.innerHTML = '';
+            const spinner = document.getElementById('qrSpinner');
+            const status = document.getElementById('qrStatus');
+            spinner.style.display = 'inline-block';
+            status.classList.remove('text-success');
+            status.classList.add('text-muted');
+            status.innerHTML = '<i class="fas fa-hourglass-half"></i> Generating QR…';
+            setTimeout(()=>{
+                new QRCode(container, { text, width:160, height:160, correctLevel: QRCode.CorrectLevel.M });
+                spinner.style.display = 'none';
+                status.classList.remove('text-muted');
+                status.classList.add('text-success');
+                status.innerHTML = '<i class="fas fa-check-circle"></i> QR Ready';
+            }, 500);
+        }
+
+        function showTicket(){
+            const ref = 'GC-' + Math.floor(100000 + Math.random()*899999);
+            document.getElementById('ticketRef').textContent = 'REF: ' + ref;
+            document.getElementById('tPassenger').textContent = passengerName.value.trim();
+            document.getElementById('tContact').textContent = contactNumber.value.trim();
+            document.getElementById('tEmail').textContent = emailAddress.value.trim();
+            document.getElementById('tCabType').textContent = cabType.options[cabType.selectedIndex].text;
+            document.getElementById('tDate').textContent = tripDate.value;
+            document.getElementById('tTime').textContent = tripTime.value;
+            document.getElementById('tPickup').textContent = pickup.value;
+            document.getElementById('tDrop').textContent = drop.value;
+            document.getElementById('tDistance').textContent = distanceKmEl.textContent + ' km';
+            document.getElementById('tBase').textContent = baseFareEl.textContent;
+            const fees = FIXED_FEES; document.getElementById('tFees').textContent = String(fees);
+            document.getElementById('tTotal').textContent = totalPriceEl.textContent;
+            const qrContainer = document.getElementById('ticketQR');
+            const content = JSON.stringify({ 
+                ref, 
+                name: passengerName.value, 
+                contact: contactNumber.value, 
+                pickup: pickup.value, 
+                drop: drop.value, 
+                total: totalPriceEl.textContent,
+                timestamp: new Date().toISOString()
+            });
+            
+            generateQR(qrContainer, content);
+            
+            const overlay = document.getElementById('ticketOverlay');
+            overlay.style.display = 'flex';
+            overlay.setAttribute('aria-hidden','false');
+            overlay.setAttribute('aria-busy','true');
+            setTimeout(()=> overlay.setAttribute('aria-busy','false'), 600);
+        }
+        document.getElementById('closeTicket').addEventListener('click', ()=>{
+            const overlay = document.getElementById('ticketOverlay');
+            overlay.style.display = 'none';
+            overlay.setAttribute('aria-hidden','true');
+        });
+
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            calculate();
+            if (!validateForm()) {
+                const out = document.getElementById('calcOutput');
+                out.style.transition = 'transform .2s';
+                out.style.transform = 'translateX(4px)';
+                setTimeout(()=>{ out.style.transform='none'; }, 200);
+                return;
+            }
+            showTicket();
+        });
+
+        function updateCabRateInfo(){
+            const rate = RATES[cabType.value] || 0;
+            const info = document.getElementById('cabRateInfo');
+            info.textContent = rate ? ('Rate: ₹' + rate + '/km') : 'Select cab type';
+        }
+        cabType.addEventListener('change', ()=>{ updateCabRateInfo(); calculate(); });
+
+        // Initialize defaults
+        updateCabRateInfo();
+        calculate();
+    })();
+    </script>
+</body>
+</html>

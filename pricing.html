@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - GoCab</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #ffcc00;
+            --secondary-color: #212529;
+            --accent-color: #ffffff;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--secondary-color) !important;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .page-header {
+            background: #000000;
+            padding: 8rem 0 4rem;
+            color: #ffcc00;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .pricing-card.featured {
+            border: 3px solid var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 5px 40px;
+            font-weight: 600;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+        }
+        
+        .pricing-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-period {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .pricing-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .pricing-features i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .btn-pricing {
+            background-color: var(--primary-color);
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-pricing:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        /* Mobile scroll wrapper */
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .table-scroll table { min-width: 640px; }
+        @media (max-width: 768px) {
+            .comparison-table th, .comparison-table td { padding: .75rem 1rem; }
+            .comparison-table th { font-size: .95rem; }
+            .comparison-table td { font-size: .95rem; white-space: nowrap; }
+        }
+        /* Optional: Improve hover on touch */
+        @media (max-width: 480px) {
+            .comparison-table td, .comparison-table th { font-size: .9rem; }
+        }
+        
+        .comparison-table th {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            font-weight: 600;
+            padding: 1.5rem;
+        }
+        
+        .comparison-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        
+        .footer h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+            
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Comparison Table UX Enhancements */
+        .comparison-table { position: relative; }
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .comparison-table table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .comparison-table thead th { position: sticky; top: 0; background: #fffbea; z-index: 2; }
+        .comparison-table tbody td, .comparison-table thead th { transition: background-color .25s ease, transform .15s ease, box-shadow .25s ease; }
+        .comparison-table tbody tr { transition: background-color .25s ease; }
+        .comparison-table tbody tr:hover { background: rgba(255, 204, 0, 0.10); }
+        .comparison-table tbody td:hover { background: rgba(255, 204, 0, 0.18); transform: translateY(-1px); }
+        .comparison-table .plan-row.selected { background: rgba(40, 167, 69, 0.10); box-shadow: inset 0 0 0 2px rgba(40,167,69,0.3); }
+        .comparison-table .plan-row.selected td { animation: pulseGlow 600ms ease-in-out; }
+        .comparison-table .plan-row.recommended td:first-child { position: relative; }
+        .comparison-table .badge-recommended { display: inline-block; margin-left: .5rem; font-size: .75rem; padding: .25rem .5rem; border-radius: 999px; background: linear-gradient(45deg, #ffd54f, #ffcc00); color: #212529; font-weight: 600; }
+        .comparison-table .feature-pill { display: inline-block; background: #f1f3f5; color: #343a40; border-radius: 999px; padding: .25rem .6rem; font-size: .85rem; margin-right: .35rem; }
+        .comparison-table .feature-pill.best { background: #e8f5e9; color: #2e7d32; }
+        .comparison-table .feature-pill.premium { background: #e3f2fd; color: #1565c0; }
+        .comparison-table .feature-pill.flat { background: #fff3e0; color: #ef6c00; }
+        .comparison-table .feature-pill.hourly { background: #ede7f6; color: #5e35b1; }
+        
+        /* Micro-interactions and focus states */
+        .comparison-table .plan-row { cursor: pointer; }
+        .comparison-table .plan-row:focus { outline: 3px solid rgba(21, 101, 192, .35); outline-offset: 2px; }
+        .comparison-table .plan-row[aria-selected="true"] { background: rgba(21, 101, 192, 0.10); }
+        
+        /* Loading animation */
+        .comparison-table.loading::before {
+            content: "";
+            position: absolute; inset: 0; border-radius: 12px; background: linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.0) 100%);
+            animation: skeletonShimmer 1.2s infinite;
+            pointer-events: none;
+        }
+        @keyframes skeletonShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: inset 0 0 0 0 rgba(40,167,69,0.0); }
+            50% { box-shadow: inset 0 0 0 4px rgba(40,167,69,0.25); }
+            100% { box-shadow: inset 0 0 0 0 rgba(40,167,69,0.0); }
+        }
+        
+        /* Typography hierarchy & spacing */
+        .comparison-table thead th { font-weight: 700; font-size: 1.05rem; color: var(--secondary-color); }
+        .comparison-table tbody td { font-size: 1rem; }
+        .comparison-table tbody td strong { font-weight: 600; color: var(--secondary-color); }
+        .comparison-table .cell-muted { color: #6c757d; }
+        .comparison-table .cell-accent { color: var(--primary-color); font-weight: 600; }
+        .comparison-table .cell-good { color: #2e7d32; font-weight: 600; }
+        .comparison-table .cell-info { color: #1565c0; font-weight: 600; }
+        
+        /* Responsive tweaks */
+        @media (max-width: 992px) {
+            .comparison-table thead th, .comparison-table tbody td { padding: .75rem .9rem; }
+        }
+        @media (max-width: 576px) {
+            .comparison-table thead th, .comparison-table tbody td { padding: .6rem .7rem; font-size: .95rem; }
+            .comparison-table .badge-recommended { display: block; margin-top: .35rem; }
+        }
+        
+        /* Selection details bar */
+        .plan-details { display: none; margin-top: 1rem; background: #f8f9fa; border-radius: 10px; padding: .9rem 1rem; border: 1px solid #e9ecef; }
+        .plan-details.show { display: block; animation: fadeSlideIn .25s ease; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">GoCab</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="book.html">Book Cab</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="pricing.html">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1>Our Pricing Plans</h1>
+                    <p class="lead">Choose the perfect plan for your transportation needs. Transparent pricing with no hidden charges.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Choose Your Plan</h2>
+            <p class="section-subtitle">Flexible pricing options to suit every budget and requirement</p>
+            
+            <div class="row g-4">
+                <!-- City Rides -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card">
+                        <div class="pricing-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h3 class="pricing-title">City Rides</h3>
+                        <div class="pricing-price">₹15</div>
+                        <div class="pricing-period">per km</div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Local city transportation</li>
+                            <li><i class="fas fa-check"></i> 24/7 availability</li>
+                            <li><i class="fas fa-check"></i> Professional drivers</li>
+                            <li><i class="fas fa-check"></i> Clean & safe vehicles</li>
+                            <li><i class="fas fa-check"></i> Real-time tracking</li>
+                            <li><i class="fas fa-check"></i> Multiple payment options</li>
+                        </ul>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                         <div id="planDetails" class="plan-details" aria-live="polite" role="status"></div>
+                     </div>
+
+                <!-- Outstation Trips -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3 class="pricing-title">Outstation Trips</h3>
+                        <div class="pricing-price">₹12</div>
+                        <div class="pricing-period">per km</div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Long-distance travel</li>
+                            <li><i class="fas fa-check"></i> Comfortable vehicles</li>
+                            <li><i class="fas fa-check"></i> Experienced drivers</li>
+                            <li><i class="fas fa-check"></i> Flexible scheduling</li>
+                            <li><i class="fas fa-check"></i> Break stops included</li>
+                            <li><i class="fas fa-check"></i> GPS navigation</li>
+                        </ul>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                </div>
+
+                <!-- Airport Transfers -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card">
+                        <div class="pricing-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h3 class="pricing-title">Airport Transfers</h3>
+                        <div class="pricing-price">₹600</div>
+                        <div class="pricing-period">flat rate</div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Airport pickup/drop</li>
+                            <li><i class="fas fa-check"></i> Flight monitoring</li>
+                            <li><i class="fas fa-check"></i> Luggage assistance</li>
+                            <li><i class="fas fa-check"></i> Meet & greet service</li>
+                            <li><i class="fas fa-check"></i> Waiting time included</li>
+                            <li><i class="fas fa-check"></i> Premium vehicles</li>
+                        </ul>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">Additional Services</h2>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="pricing-card">
+                        <div class="pricing-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Hourly Rental</h4>
+                        <div class="pricing-price">₹300</div>
+                        <div class="pricing-period">per hour</div>
+                        <p>Perfect for city tours, business meetings, or special events.</p>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="pricing-card">
+                        <div class="pricing-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h4>Child Seat</h4>
+                        <div class="pricing-price">₹100</div>
+                        <div class="pricing-period">per trip</div>
+                        <p>Safe and comfortable child seats for your little ones.</p>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="pricing-card">
+                        <div class="pricing-icon">
+                            <i class="fas fa-wheelchair"></i>
+                        </div>
+                        <h4>Accessible Vehicle</h4>
+                        <div class="pricing-price">₹300</div>
+                        <div class="pricing-period">base fare</div>
+                        <p>Wheelchair accessible vehicles with trained drivers.</p>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="pricing-card">
+                        <div class="pricing-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h4>Special Occasions</h4>
+                        <div class="pricing-price">₹1000</div>
+                        <div class="pricing-period">base fare</div>
+                        <p>Luxury vehicles for weddings, proms, and special events.</p>
+                        <a href="book.html" class="btn btn-pricing">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Comparison -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Pricing Comparison</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="comparison-table">
+                        <div class="table-scroll">
+                            <table class="table table-hover mb-0" role="table" aria-label="Pricing comparison">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Service</th>
+                                        <th scope="col">Base Fare</th>
+                                        <th scope="col">Per Km</th>
+                                        <th scope="col">Per Minute</th>
+                                        <th scope="col">Features</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="plan-row" tabindex="0" aria-selected="false">
+                                        <td><strong>City Rides</strong></td>
+                                        <td>₹75.00</td>
+                                        <td>₹15.00</td>
+                                        <td>₹2.00</td>
+                                        <td><span class="feature-pill">Standard</span></td>
+                                    </tr>
+                                    <tr class="plan-row recommended" tabindex="0" aria-selected="false">
+                                        <td><strong>Outstation</strong> <span class="badge-recommended" aria-label="Recommended option">Recommended</span></td>
+                                        <td>₹100.00</td>
+                                        <td>₹12.00</td>
+                                        <td>₹2.00</td>
+                                        <td><span class="feature-pill best">Best Value</span> <span class="feature-pill">Long Distance</span></td>
+                                    </tr>
+                                    <tr class="plan-row" tabindex="0" aria-selected="false">
+                                        <td><strong>Airport Transfer</strong></td>
+                                        <td>₹600.00</td>
+                                        <td>Included</td>
+                                        <td>Included</td>
+                                        <td><span class="feature-pill flat">Flat Rate</span></td>
+                                    </tr>
+                                    <tr class="plan-row" tabindex="0" aria-selected="false">
+                                        <td><strong>Hourly Rental</strong></td>
+                                        <td>₹300.00</td>
+                                        <td>Included</td>
+                                        <td>Included</td>
+                                        <td><span class="feature-pill hourly">Per Hour</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="planDetails" class="plan-details" aria-live="polite" role="status"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title">Ready to Book Your Ride?</h2>
+                    <p class="lead mb-4">Choose from our flexible pricing options and book your ride today. No hidden charges, just transparent pricing.</p>
+                    <a href="book.html" class="btn btn-pricing" style="width: auto; padding: 15px 40px;">
+                        <i class="fas fa-car me-2"></i>Book Your Cab Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>GoCab</h5>
+                    <p>Your trusted partner for safe, reliable, and affordable transportation services. Book your ride anytime, anywhere.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="book.html" class="text-light text-decoration-none">Book Cab</a></li>
+                        <li><a href="pricing.html" class="text-light text-decoration-none">Pricing</a></li>
+                        <li><a href="about.html" class="text-light text-decoration-none">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-phone me-2"></i> (+91-999999999)</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@gocab.com</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Rajkot, India</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Service Hours</h5>
+                    <p>24/7 Available</p>
+                    <p>Emergency Service</p>
+                    <p>Airport Transfers</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 GoCab India. All rights reserved. | Made with ❤️ in India</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function(){
+      const comp = document.querySelector('.comparison-table');
+      if (!comp) return;
+      // Loading animation
+      comp.classList.add('loading');
+      setTimeout(()=> comp.classList.remove('loading'), 700);
+
+      const table = comp.querySelector('table');
+      const rows = table.querySelectorAll('tbody tr.plan-row');
+      const details = document.getElementById('planDetails');
+
+      function updateDetails(row){
+        const cells = row.querySelectorAll('td');
+        const service = cells[0].textContent.trim();
+        const base = cells[1].textContent.trim();
+        const perKm = cells[2].textContent.trim();
+        const perMin = cells[3].textContent.trim();
+        details.innerHTML = '<span class="cell-accent">' + service + '</span> • Base ' + base + ' • ' + (perKm === 'Included' ? 'Per km included' : (perKm + ' per km')) + ' • ' + (perMin === 'Included' ? 'Per minute included' : (perMin + ' per minute'));
+        details.classList.add('show');
+      }
+
+      function selectRow(row){
+        rows.forEach(r => { r.classList.remove('selected'); r.setAttribute('aria-selected','false'); });
+        row.classList.add('selected');
+        row.setAttribute('aria-selected','true');
+        updateDetails(row);
+      }
+
+      rows.forEach(row => {
+        row.addEventListener('click', ()=> selectRow(row));
+        row.addEventListener('keydown', (e)=>{
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectRow(row); }
+          if (e.key === 'ArrowDown') { e.preventDefault(); const next = row.nextElementSibling; if (next) next.focus(); }
+          if (e.key === 'ArrowUp') { e.preventDefault(); const prev = row.previousElementSibling; if (prev) prev.focus(); }
+        });
+        row.setAttribute('tabindex', '0');
+      });
+
+      const recommended = comp.querySelector('.plan-row.recommended');
+      if (recommended) selectRow(recommended);
+    })();
+    </script>
+</body>
+</html>
