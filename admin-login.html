@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | GoCab</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+ 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #ffcc00;
+      --secondary-color: #212529;
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff8dc, #fff6b0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 420px;
+      width: 100%;
+      padding: 2.5rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .login-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .login-card h2 {
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+
+    .login-card p {
+      color: #6c757d;
+      margin-bottom: 2rem;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      border: 2px solid #eee;
+      padding: 0.75rem 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.25);
+    }
+
+    .btn-login {
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      color: var(--secondary-color);
+      padding: 0.75rem;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background-color: #e6b800;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
+    }
+
+    .alert {
+      display: none;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="logo"><i class="fas fa-taxi me-2"></i>GoCab Admin</div>
+    <h2>Welcome Back</h2>
+    <p>Login to access your admin dashboard</p>
+
+    <div id="errorAlert" class="alert alert-danger" role="alert">
+      Invalid username or password!
+    </div>
+
+    <form id="loginForm">
+      <div class="mb-3 text-start">
+        <label class="form-label fw-semibold"><i class="fas fa-user me-2"></i>Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+      </div>
+      <div class="mb-4 text-start">
+        <label class="form-label fw-semibold"><i class="fas fa-lock me-2"></i>Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+      </div>
+      <button type="submit" class="btn btn-login"><i class="fas fa-sign-in-alt me-2"></i>Login</button>
+    </form>
+  </div>
+
+  <footer>© 2025 GoCab Admin Panel</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const alertBox = document.getElementById("errorAlert");
+
+      if(user === "admin" && pass === "project"){
+        alertBox.style.display = "none";
+       
+        window.location.href = "admin-dashboard.html";
+      } else {
+        alertBox.style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>

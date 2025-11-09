@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Bookings | GoCab</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #ffcc00;
+      --secondary-color: #212529;
+    }
+    * { font-family: 'Poppins', sans-serif; }
+    body {
+      background-color: #f8f9fa;
+      display: flex;
+      min-height: 100vh;
+    }
+
+
+  
+.sidebar {
+  width: 250px;
+  background-color: #212529;
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding-top: 1rem;
+}
+
+.sidebar .nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar .nav-item {
+  margin: 5px 0;
+}
+
+.sidebar .nav-link {
+  color: #fff;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  transition: 0.3s;
+  border-radius: 0 30px 30px 0;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: #ffcc00;
+  color: #212529;
+}
+
+.sidebar .nav-link i {
+  margin-right: 12px;
+  width: 20px;
+  text-align: center;
+}
+
+
+    .content {
+  flex-grow: 1;
+  margin-left: 250px; 
+  padding: 2rem;
+}
+  
+
+
+    
+
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table thead {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+    }
+
+    .btn-clear {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    .btn-clear:hover {
+      background-color: #e6b800;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        height: 100%;
+        z-index: 1000;
+      }
+    }
+  </style>
+</head>
+<body>
+
+ 
+<div class="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="admin-dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="admin-bookings.html"><i class="fas fa-car-side"></i> Bookings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-drivers.html"><i class="fas fa-id-card"></i> Drivers</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-customers.html"><i class="fas fa-users"></i> Customers</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </li>
+  </ul>
+</div>
+
+
+
+
+<script>
+
+  const currentPage = location.pathname.split("/").pop();
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+</script>
+
+
+  
+  <div class="content">
+    <nav class="navbar">
+      <h4 class="fw-bold mb-0"><i class="fas fa-book me-2 text-warning"></i>All Bookings</h4>
+      <button class="btn btn-sm btn-outline-dark" id="toggleSidebar"><i class="fas fa-bars"></i></button>
+    </nav>
+
+    <div class="container mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-semibold">Recent Bookings</h5>
+        <button class="btn btn-clear btn-sm" id="clearBookings"><i class="fas fa-trash me-2"></i>Clear All</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Pickup</th>
+              <th>Drop</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Cab Type</th>
+              <th>Passengers</th>
+              <th>Special Request</th>
+            </tr>
+          </thead>
+          <tbody id="bookingTableBody">
+            <tr>
+              <td colspan="11" class="text-center text-muted">No bookings found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+   
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
+      document.getElementById("sidebar").classList.toggle("collapsed");
+    });
+
+    
+    const tableBody = document.getElementById("bookingTableBody");
+    const bookings = JSON.parse(localStorage.getItem("gocab_bookings")) || [];
+
+    function renderBookings() {
+      if (bookings.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="11" class="text-center text-muted">No bookings found</td></tr>`;
+        return;
+      }
+
+      tableBody.innerHTML = "";
+      bookings.forEach((b, index) => {
+        const row = `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${b.fullName || "-"}</td>
+            <td>${b.email || "-"}</td>
+            <td>${b.phone || "-"}</td>
+            <td>${b.pickup || "-"}</td>
+            <td>${b.drop || "-"}</td>
+            <td>${b.date || "-"}</td>
+            <td>${b.time || "-"}</td>
+            <td>${b.cabType || "-"}</td>
+            <td>${b.passengers || "-"}</td>
+            <td>${b.special || "-"}</td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    renderBookings();
+
+   
+    document.getElementById("clearBookings").addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all bookings?")) {
+        localStorage.removeItem("gocab_bookings");
+        tableBody.innerHTML = `<tr><td colspan="11" class="text-center text-muted">No bookings found</td></tr>`;
+      }
+    });
+  </script>
+
+</body>
+</html>

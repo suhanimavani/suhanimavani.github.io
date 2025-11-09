@@ -9,10 +9,10 @@
    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-  
+   
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-  
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -171,7 +171,7 @@
         }
         
         .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        /* Mobile scroll wrapper */
+        
         .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .table-scroll table { min-width: 640px; }
         @media (max-width: 768px) {
@@ -179,7 +179,7 @@
             .comparison-table th { font-size: .95rem; }
             .comparison-table td { font-size: .95rem; white-space: nowrap; }
         }
-        /* Optional: Improve hover on touch */
+       
         @media (max-width: 480px) {
             .comparison-table td, .comparison-table th { font-size: .9rem; }
         }
@@ -260,7 +260,7 @@
         .comparison-table .feature-pill.flat { background: #fff3e0; color: #ef6c00; }
         .comparison-table .feature-pill.hourly { background: #ede7f6; color: #5e35b1; }
         
-       
+        
         .comparison-table .plan-row { cursor: pointer; }
         .comparison-table .plan-row:focus { outline: 3px solid rgba(21, 101, 192, .35); outline-offset: 2px; }
         .comparison-table .plan-row[aria-selected="true"] { background: rgba(21, 101, 192, 0.10); }
@@ -291,7 +291,7 @@
         .comparison-table .cell-good { color: #2e7d32; font-weight: 600; }
         .comparison-table .cell-info { color: #1565c0; font-weight: 600; }
         
-        /
+        
         @media (max-width: 992px) {
             .comparison-table thead th, .comparison-table tbody td { padding: .75rem .9rem; }
         }
@@ -307,7 +307,7 @@
     </style>
 </head>
 <body>
-    
+ 
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">GoCab</a>
@@ -348,14 +348,14 @@
         </div>
     </section>
 
-    
+  
     <section class="py-5">
         <div class="container">
             <h2 class="section-title">Choose Your Plan</h2>
             <p class="section-subtitle">Flexible pricing options to suit every budget and requirement</p>
             
             <div class="row g-4">
-                <!-- City Rides -->
+               
                 <div class="col-lg-4 col-md-6">
                     <div class="pricing-card">
                         <div class="pricing-icon">
@@ -377,7 +377,7 @@
                          <div id="planDetails" class="plan-details" aria-live="polite" role="status"></div>
                      </div>
 
-                
+               
                 <div class="col-lg-4 col-md-6">
                     <div class="pricing-card featured">
                         <div class="pricing-badge">Most Popular</div>
@@ -399,7 +399,7 @@
                     </div>
                 </div>
 
-                
+               
                 <div class="col-lg-4 col-md-6">
                     <div class="pricing-card">
                         <div class="pricing-icon">
@@ -423,7 +423,7 @@
         </div>
     </section>
 
-    
+ 
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="section-title">Additional Services</h2>
@@ -480,7 +480,7 @@
         </div>
     </section>
 
-   
+
     <section class="py-5">
         <div class="container">
             <h2 class="section-title">Pricing Comparison</h2>
@@ -538,7 +538,7 @@
         </div>
     </section>
 
-   
+  
     <section class="py-5 bg-light">
         <div class="container">
             <div class="row">
@@ -553,7 +553,7 @@
         </div>
     </section>
 
-  
+
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -598,13 +598,13 @@
         </div>
     </footer>
 
-    
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     (function(){
       const comp = document.querySelector('.comparison-table');
       if (!comp) return;
-      // Loading animation
+     
       comp.classList.add('loading');
       setTimeout(()=> comp.classList.remove('loading'), 700);
 
@@ -644,5 +644,4 @@
     })();
     </script>
 </body>
-
 </html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Drivers | GoCab</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #ffcc00;
+      --secondary-color: #212529;
+    }
+
+    * { font-family: 'Poppins', sans-serif; }
+
+    body {
+      background-color: #f8f9fa;
+      padding-top: 70px;
+    }
+
+    .navbar-brand {
+      color: var(--primary-color) !important;
+      font-weight: 700;
+    }
+
+    #sidebar {
+  width: 250px;
+  background-color: #212529;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding-top: 60px;
+}
+
+#sidebar .nav-link {
+  color: #fff;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+#sidebar .nav-link:hover,
+#sidebar .nav-link.active {
+  background-color: #ffcc00;
+  color: #212529;
+}
+
+
+    .main-content {
+      margin-left: 270px;
+      padding: 2rem;
+    }
+
+    .table thead {
+      background-color: var(--secondary-color);
+      color: #fff;
+    }
+
+    .btn-add {
+      background-color: var(--primary-color);
+      border: none;
+      color: var(--secondary-color);
+      font-weight: 600;
+      border-radius: 50px;
+      padding: 8px 20px;
+    }
+
+    .btn-add:hover {
+      background-color: #e6b800;
+    }
+
+    .status {
+      font-weight: 600;
+    }
+
+    .status.available { color: green; }
+    .status.ontrip { color: red; }
+  </style>
+</head>
+<body>
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">GoCab Admin</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  
+<div id="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="admin-dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-bookings.html"><i class="fas fa-car-side"></i><span>Bookings</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-drivers.html"><i class="fas fa-id-card"></i><span>Drivers</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-customers.html"><i class="fas fa-users"></i><span>Customers</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-login.html"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </li>
+  </ul>
+</div>
+
+<script>
+  
+  const currentPage = location.pathname.split("/").pop();
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+</script>
+
+
+ 
+  <div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold">Manage Drivers</h2>
+      <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addDriverModal">
+        <i class="fas fa-plus me-2"></i>Add Driver
+      </button>
+    </div>
+
+    
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Vehicle</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="driverTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+ 
+  <div class="modal fade" id="addDriverModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Add New Driver</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addDriverForm">
+            <div class="mb-3">
+              <label class="form-label">Driver Name</label>
+              <input type="text" class="form-control" id="driverName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Vehicle</label>
+              <input type="text" class="form-control" id="driverVehicle" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone</label>
+              <input type="text" class="form-control" id="driverPhone" required>
+            </div>
+            <button type="submit" class="btn btn-add w-100">Add Driver</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const driverTable = document.getElementById('driverTableBody');
+    let drivers = JSON.parse(localStorage.getItem('gocab_drivers')) || [];
+
+    function renderDrivers() {
+      driverTable.innerHTML = "";
+      drivers.forEach((driver, index) => {
+        driverTable.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${driver.name}</td>
+            <td>${driver.vehicle}</td>
+            <td>${driver.phone}</td>
+            <td class="status ${driver.status === 'On Trip' ? 'ontrip' : 'available'}">${driver.status}</td>
+            <td>
+              ${
+                driver.status === 'On Trip'
+                  ? `<button class="btn btn-sm btn-success" onclick="markAvailable(${index})"><i class="fas fa-check"></i> Mark Available</button>`
+                  : `<button class="btn btn-sm btn-danger" onclick="removeDriver(${index})"><i class="fas fa-trash"></i></button>`
+              }
+            </td>
+          </tr>
+        `;
+      });
+      localStorage.setItem('gocab_drivers', JSON.stringify(drivers));
+    }
+
+    function removeDriver(index) {
+      drivers.splice(index, 1);
+      renderDrivers();
+    }
+
+    function markAvailable(index) {
+      drivers[index].status = 'Available';
+      renderDrivers();
+    }
+
+    document.getElementById('addDriverForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const newDriver = {
+        name: document.getElementById('driverName').value.trim(),
+        vehicle: document.getElementById('driverVehicle').value.trim(),
+        phone: document.getElementById('driverPhone').value.trim(),
+        status: 'Available'
+      };
+      drivers.push(newDriver);
+      renderDrivers();
+      e.target.reset();
+      bootstrap.Modal.getInstance(document.getElementById('addDriverModal')).hide();
+    });
+
+    function updateDriverStatusFromBookings() {
+      const bookings = JSON.parse(localStorage.getItem('gocab_bookings')) || [];
+      const busyDrivers = bookings.map(b => b.driver).filter(Boolean);
+      drivers = drivers.map(driver => ({
+        ...driver,
+        status: busyDrivers.includes(driver.name) ? 'On Trip' : driver.status
+      }));
+      localStorage.setItem('gocab_drivers', JSON.stringify(drivers));
+    }
+
+    updateDriverStatusFromBookings();
+    renderDrivers();
+  </script>
+</body>
+</html>

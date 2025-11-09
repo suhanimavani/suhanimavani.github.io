@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | GoCab</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+ 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+ 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #ffcc00;
+      --secondary-color: #212529;
+      --light-bg: #f8f9fa;
+    }
+
+    * { font-family: 'Poppins', sans-serif; }
+
+    body {
+      background-color: var(--light-bg);
+      overflow-x: hidden;
+    }
+
+  
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      background-color: var(--secondary-color);
+      transition: all 0.3s ease;
+      padding-top: 70px;
+      z-index: 1000;
+    }
+
+    #sidebar.collapsed {
+      width: 70px;
+    }
+
+    #sidebar .nav-link {
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    #sidebar .nav-link i {
+      font-size: 1.2rem;
+      margin-right: 10px;
+      width: 25px;
+      text-align: center;
+    }
+
+    #sidebar .nav-link:hover {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+    }
+
+    #sidebar.collapsed .nav-link span {
+      display: none;
+    }
+
+    
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .navbar-brand {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 100px 30px 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .collapsed + .content {
+      margin-left: 70px;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card i {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 20px;
+      font-size: 0.9rem;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 992px) {
+      #sidebar { width: 70px; }
+      #sidebar .nav-link span { display: none; }
+      .content { margin-left: 70px; padding: 100px 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+ 
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <button class="toggle-btn" id="toggleSidebar"><i class="fas fa-bars"></i></button>
+      <a class="navbar-brand" href="#">GoCab Admin</a>
+      <div class="ms-auto">
+        <a href="admin-login.html" class="btn btn-sm btn-outline-dark">
+          <i class="fas fa-sign-out-alt me-1"></i> Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+ 
+<div id="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="admin-dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-bookings.html"><i class="fas fa-car-side"></i><span>Bookings</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-drivers.html"><i class="fas fa-id-card"></i><span>Drivers</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-customers.html"><i class="fas fa-users"></i><span>Customers</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-login.html"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </li>
+  </ul>
+</div>
+
+<script>
+  
+  const currentPage = location.pathname.split("/").pop();
+  document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+</script>
+
+
+
+  <div class="content">
+    <div class="container-fluid">
+      <h2 class="fw-bold mb-4"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview</h2>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="card text-center p-4">
+            <i class="fas fa-car"></i>
+            <h5>Total Bookings</h5>
+            <h3 class="fw-bold text-dark">128</h3>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card text-center p-4">
+            <i class="fas fa-user-check"></i>
+            <h5>Active Rides</h5>
+            <h3 class="fw-bold text-dark">12</h3>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card text-center p-4">
+            <i class="fas fa-users"></i>
+            <h5>Customers</h5>
+            <h3 class="fw-bold text-dark">342</h3>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card text-center p-4">
+            <i class="fas fa-star"></i>
+            <h5>Feedbacks</h5>
+            <h3 class="fw-bold text-dark">47</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <h4 class="fw-semibold mb-3"><i class="fas fa-chart-line me-2"></i>Recent Activity</h4>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>Booking ID</th>
+                <th>Customer</th>
+                <th>Pickup</th>
+                <th>Destination</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#B001</td>
+                <td>Riya Sharma</td>
+                <td>Rajkot</td>
+                <td>Ahmedabad</td>
+                <td><span class="badge bg-success">Completed</span></td>
+              </tr>
+              <tr>
+                <td>#B002</td>
+                <td>Aryan Mehta</td>
+                <td>Surat</td>
+                <td>Vadodara</td>
+                <td><span class="badge bg-warning text-dark">Ongoing</span></td>
+              </tr>
+              <tr>
+                <td>#B003</td>
+                <td>Neha Patel</td>
+                <td>Rajkot</td>
+                <td>Jamnagar</td>
+                <td><span class="badge bg-secondary">Cancelled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer>© 2025 GoCab Admin Panel</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+    });
+  </script>
+</body>
+</html>
